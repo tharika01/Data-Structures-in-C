@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define size 100
+struct student
+{
+    int sid;
+    char sname[20];
+    char gender;
+};
+void push(struct student new_ele,int *top,struct student stack_std[]);
+struct student pop(int *top,struct student stack_std[]);
+void display(int top,struct student stack_std[]);
+int main()
+{
+    struct student stack_std[size],new_ele,pop_ele;
+    int n,ch,top = -1;
+    printf("Enter the number of students:\n");
+    scanf("%d",&n);
+    for(;;)
+    {
+        printf("\n1.To Push 2.To Pop 3.To Display 4.Exit\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+                if(top == (n-1))
+                {
+                    printf("Stack full\n");
+                    break;
+                }
+                printf("Enter student details:\n");
+                scanf("%d %s %c",&new_ele.sid,new_ele.sname,&new_ele.gender);
+                push(new_ele,&top,stack_std);
+                break;
+            case 2:
+                if(top == (-1))
+                {
+                    printf("Stack empty\n");
+                    break;
+                }
+                pop_ele = pop(&top,stack_std);
+                printf("The popped student details are :\n");
+                printf("%d %s %c",pop_ele.sid,pop_ele.sname,pop_ele.gender);
+                break;
+            case 3:
+                if(top == (-1))
+                {
+                    printf("Stack is empty");
+                    break;
+                }
+                display(top,stack_std);
+                break;
+            case 4:
+                exit(0);
+        }
+    }
+    return 0;
+}
+void push(struct student new_ele,int *top,struct student stack_std[])
+{
+    (*top)++;
+    stack_std[*top] = new_ele;
+}
+struct student pop(int *top,struct student stack_std[])
+{
+    struct student popped_ele;
+    popped_ele = stack_std[*top];
+    (*top)--;
+    return popped_ele;
+}
+void display(int top,struct student stack_std[])
+{
+    for(int i = top;i >=0;i--)
+    {
+        printf("%d %s %c\n",stack_std[i].sid, stack_std[i].sname, stack_std[i].gender);
+    }
+}
