@@ -1,0 +1,113 @@
+#include <stdio.h>
+
+typedef enum{lparen,rparen,plus,minus,mul,divs,mod,power,eos,operand}precedence;
+
+void push(precedence token,int *top,int stack[]);
+void print_token(precedence token);
+precedence get_token(char *symbol,int *n,char infix[]);
+precedence pop(int *top,int stack[]);
+void infix_to_postfix(char infix[]);
+#define SIZE 10
+
+int main()
+{
+    char infix[SIZE];
+    printf("Enter a valid infix expression\n");
+    scanf("%s",infix);
+    printf("The postfix equivalent is :\n");
+    infix_to_postfix(infix);
+    return 0;
+}
+void infix_to_postfix(char infix[])
+{
+    int ISP[] = {0,4,1,1,2,2,2,3,0};
+    int ICP[] = {20,4,1,1,2,2,2,3,0};
+    int stack[SIZE],top = 0,n=0;
+    stack[top] = eos;
+    char symbol;
+    precedence token;
+    for(token = get_token(&symbol,&n,infix);token != eos ;token = get_token(&symbol,&n,infix))
+    {
+        if(token == operand)
+            printf("%c",symbol);
+        else if(token == rparen)
+        {
+            while(stack[top] != lparen)
+            {
+                print_token(pop(&top,stack));
+            }
+            pop(&top,stack);
+        }
+        else
+        {
+            while(ISP[stack[top]] >= ICP[token])
+            {
+                print_token(pop(&top,stack));
+                //push(token,&top,stack);
+            }
+            push(token,&top,stack);
+        }
+    }
+    while((token = pop(&top,stack)) != eos)
+        print_token(token);
+}
+void push(precedence token,int *top,int stack[])
+{
+    stack[++(*top)] = token;
+    return;
+}
+precedence pop(int *top,int stack[])
+{
+    return(stack[(*top)--]);
+}
+precedence get_token(char *symbol,int *n,char infix[])
+{
+    (*symbol) = infix[(*n)++];
+    switch(*symbol)
+    {
+        case '(' :
+            return lparen;
+        case ')' :
+            return rparen;
+        case '+' :
+            return plus;
+        case '-' :
+            return minus;
+        case '*' :
+            return mul;
+        case '/' :
+            return divs;
+        case '%' :
+            return mod;
+        case '^' :
+            return power;
+        case '\0' :
+            return eos;
+        default :
+            return operand;
+    }
+}
+void print_token(precedence token)
+{
+    switch(token)
+    {
+        case plus:
+            printf("+");
+            break;
+        case minus:
+            printf("-");
+            break;
+        case mul:
+            printf("*");
+            break;
+        case divs:
+            printf("/");
+            break;
+        case mod:
+            printf("%%");
+            break;
+        case power:
+            printf("^");
+            break;
+    }
+}
