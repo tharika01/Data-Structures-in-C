@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    // int p = 10;
+    // void *vptr;
+    // vptr = &p;
+    
+    //printf("%d",*iptr);
+    
+    // void pointer
+    //printf("%d",*(int *)vptr);
+    
+    // dynamic memory allocation
+    // int *iptr = (int*)malloc(sizeof(int));
+    // *iptr = 99;
+    // printf("%u %d",iptr,*iptr);
+    
+    void *ptr = malloc(sizeof(int));
+    *(float *)ptr = 99.65;
+    printf("%f",*(float*)ptr);
+    return 0;
+}
