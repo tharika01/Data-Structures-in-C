@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define size 100
+int swap(char ,char );
+int main()
+{
+    char str[size],temp[size],rev[size];
+    int i;
+    printf("Enter a string\n");
+    gets(str);
+    strcpy(rev,str);
+
+    int n = strlen(str);
+    for(i = 0;i < n/2;i++)
+    {
+        temp[i] = rev[i];
+        rev[i] = rev[n-i-1];
+        rev[n -i-1] = temp[i];
+    }
+    puts(rev);
+    if(strcmp(rev,str)==0)
+    {
+        printf("%s is a palindrome",str);
+    }
+    else
+        printf("Not a palindrome");
+    return 0;
+}
+int swap(char s1,char s2)
+{
+    char temp = s1;
+    s1 = s2;
+    s2 = temp;
+    return temp;
+}
