@@ -1,0 +1,146 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node
+{
+    char name[10];
+    char usn[10];
+    struct node *link;
+}NODE;
+
+typedef struct head_node
+{
+    int count;
+    NODE *link;
+}HEAD;
+
+void insert_front(HEAD *head);
+void insert_rear(HEAD *head);
+void delete_front(HEAD *head);
+void delete_rear(HEAD *head);
+void display(HEAD *head);
+
+int main()
+{
+    int ch;
+    HEAD *head = (HEAD*)malloc(sizeof(HEAD));
+    head->count = 0;
+    head->link = NULL;
+    for(;;)
+    {
+        printf("Enter 1.Insert front\n2.Insert rear\n3.Delete front\n4.Delete rear\n5.Display\n6.Exit");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+                insert_front(head);
+                break;
+            case 2:
+                insert_rear(head);
+                break;
+            case 3:
+                delete_front(head);
+                break;
+            case 4:
+                delete_rear(head);
+                break;
+            case 5:
+                display(head);
+                break;
+            case 6:
+                exit(0);
+        }
+    }
+
+    return 0;
+}
+void insert_front(HEAD *head)
+{
+    NODE *new = (NODE*)malloc(sizeof(NODE));
+    printf("Enter the element to be inserted\n");
+    scanf("%s%s",(new->name),(new->usn));
+    new->link = head->link;
+    head->link = new;
+    head->count++;
+    return;
+}
+void insert_rear(HEAD *head)
+{
+    NODE *new = (NODE*)malloc(sizeof(NODE));
+    printf("Enter the element to be inserted\n");
+    scanf("%s%s",(new->name),(new->usn));
+    new->link = NULL;
+    if(head->link == NULL)
+    {
+        head->link = new;
+        (head->count)++;
+        return;
+    }
+    NODE *temp = head->link;
+    while(temp->link != NULL)
+    {
+        temp=temp->link;
+    }
+    temp->link = new;
+    (head->count)++;
+    return;
+}
+void delete_front(HEAD *head)
+{
+    NODE *temp = head->link;
+    if(head->link == NULL)
+    {
+        printf("The list is empty\n");
+        return;
+    }
+    printf("The deleted student details are:\n");
+    printf("%s\t%s",temp->name,temp->usn);
+    head->link = temp->link;
+    (head->count)--;
+    free(temp);
+    return;
+}
+void delete_rear(HEAD *head)
+{
+    NODE *prev,*present = head->link;
+    if(head->link == NULL)
+    {
+        printf("The list is empty\n");
+        return;
+    }
+    if(present->link == NULL)
+    {
+        printf("The deleted student details are:\n");
+        printf("%s\t%s",present->name,present->usn);
+        head->link = NULL;
+        (head->count)--;
+        free(present);
+        return;
+    }
+    while(present->link!=NULL)
+    {
+        prev = present;
+        present = present->link;
+    }
+    printf("The deleted student details are:\n");
+    printf("%s\t%s",present->name,present->usn);
+    prev->link = NULL;
+    (head->count)--;
+    free(present);
+}
+void display(HEAD *head)
+{
+    NODE *temp = head->link;
+    if(head->link == NULL)
+    {
+        printf("The list is empty\n");
+        return;
+    }
+    printf("Thestudent details are:\n");
+    while(temp!=NULL)
+    {
+        printf("%s\t%s",temp->name,temp->usn);
+        temp = temp->link;
+    }
+    return;
+}
