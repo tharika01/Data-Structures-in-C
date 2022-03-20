@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include<string.h>
+#include<stdlib.h>
+typedef struct
+{
+  char data[3];
+  struct NODE *link;
+} NODE;
+int
+main ()
+{
+  NODE *first, *second, *third,*temp;
+  first = (NODE *) malloc (sizeof (NODE));
+  second = (NODE *) malloc (sizeof (NODE));
+  third = (NODE *) malloc (sizeof (NODE));
+
+  strcpy (first->data, "BAT");
+  first->link = NULL;
+
+  strcpy (second->data, "CAT");
+  second->link = NULL;
+  first->link = second;
+
+  strcpy (third->data, "DAT");
+  third->link = NULL;
+  second->link = third;
+
+  for (temp = first;temp != NULL ; temp = temp->link)
+    {
+      printf ("%s\n", temp->data);
+    }
+  return 0;
+}
