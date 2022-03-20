@@ -1,0 +1,21 @@
+#include <stdio.h>
+void tower_of_Hanoi(int num_disk,char src,char dest,char aux);
+int main()
+{
+    int num_disk;
+    printf("Enter the number of disks:\n");
+    scanf("%d",&num_disk);
+    tower_of_Hanoi(num_disk,'A','C','B');
+    return 0;
+}
+void tower_of_Hanoi(int num_disk,char src,char dest,char aux)
+{
+    if(num_disk > 0)
+    {
+        tower_of_Hanoi(num_disk-1,src,aux,dest);
+        printf("\t\tMove %c to %c\n",src,dest);
+        tower_of_Hanoi(num_disk-1,aux,dest,src);
+    }
+        
+    
+}
