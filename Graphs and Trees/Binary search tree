@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct BST
+{
+    int data;
+    struct BST *llink;
+    struct BST *rlink;
+}Tnode;
+
+Tnode *insert(int ele, Tnode *root);
+void in_order(Tnode *root);
+void pre_order(Tnode *root);
+void post_order(Tnode *root);
+int search(int ele, Tnode *root);
+
+int main()
+{
+    int ch,ele,key;
+    Tnode *root = NULL;
+    for(;;)
+    {
+        printf("\nEnter\n1.To Insert\n2.In-order Traversal\n3.Pre-oreder Traversal\n4.Post-order Traversal\n5.To search\n6.To Exit\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+                printf("Enter the element to be inserted:\n");
+                scanf("%d",&ele);
+                root = insert(ele,root);
+                break;
+            case 2:
+                in_order(root);
+                break;
+            case 3:
+                pre_order(root);
+                break;
+            case 4:
+                post_order(root);
+                break;
+            case 5:
+                printf("Eneter the element to search for:\n");
+                scanf("%d",&key);
+                if(search(key,root))
+                    printf("Found %d !!",key);
+                else
+                    printf("Not Found");
+                break;
+            case 6:
+                exit(0);
+        }
+    }
+
+    return 0;
+}
+
+Tnode *insert(int ele, Tnode *root)
+{
+    Tnode *prev=NULL,*present;
+    Tnode *new =(Tnode*)malloc(sizeof(Tnode));
+    if(new == NULL)
+    {
+        printf("No Memory");
+        return NULL;
+    }
+    new->data = ele;
+    new->llink = new->rlink = NULL;
+    if(root == NULL)
+        return new;
+    present = root;
+    while(present != NULL)
+    {
+        prev = present;
+        if(new->data < present->data)
+            present = present->llink;
+        else
+            present = present->rlink;
+    }
+    if(new->data < prev->data)
+    {
+        prev->llink = new;
+        return root;
+    }
+    prev->rlink = new;
+    return root;
+}
+void in_order(Tnode *root)
+{
+    if(root != NULL)
+    {
+        in_order(root->llink);
+        printf("%d\t",root->data);
+        in_order(root->rlink);
+    }
+}
+void pre_order(Tnode *root)
+{
+    if(root!= NULL)
+    {
+        printf("%d\t",root->data);
+        pre_order(root->llink);
+        pre_order(root->rlink);
+    }
+}
+void post_order(Tnode *root)
+{
+    if(root!= NULL)
+    {
+        post_order(root->llink);
+        post_order(root->rlink);
+        printf("%d\t",root->data);
+    }
+}
+int search(int ele, Tnode *root)
+{
+    while(root!= NULL)
+    {
+        if(ele == root->data)
+            return 1;
+        if(ele< root->data)
+            root = root->llink;
+        else
+            root=root->rlink;
+    }
+    return 0;
+}
