@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+void insert(int ele,int *r,int Q[]);
+int delete(int *f,int Q[]);
+void display(int f,int r,int Q[]);
+int main()
+{
+    int f = 0,r = -1,choice,ele,del_ele;
+    int Q[SIZE];
+    for(;;)
+    {
+        printf("\nEnter 1. To Insert 2.To delete 3. To Display 4. To Exit\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                if(r == (SIZE -1))
+                {
+                    printf("Queue full :(");
+                    break;
+                }
+                printf("Enter the element to be inserted:\n");
+                scanf("%d",&ele);
+                insert(ele,&r,Q);
+                break;
+            case 2:
+                if((r == -1) && (f == 0))
+                {
+                    printf("Queue empty\n");
+                    break;
+                }
+                del_ele = delete(&f,Q);
+                printf("\n deleted element = %d\n",del_ele);
+                break;
+            case 3:
+                if(f > r)
+                {
+                    printf("Queue empty");
+                    break;
+                }
+                display(f,r,Q);
+                break;
+            case 4:
+                exit(0);
+        }
+    }
+    return 0;
+}
+void insert(int ele,int *r,int Q[])
+{
+    (*r)++;
+    Q[(*r)] = ele;
+}
+int delete(int *f,int Q[])
+{
+    return(Q[(*f)++]);
+}
+void display(int f,int r,int Q[])
+{
+    printf("Contents of Queue:\n");
+    for(int i = f;i <= r;i++)
+    {
+        printf("%d\t",Q[i]);
+    }
+}
