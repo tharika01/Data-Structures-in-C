@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+void print_all(struct student st);
+void print_val1(char name);
+
+struct student
+{
+    char name[20];
+    int age;
+    char sub_name[20];
+    int marks;
+};
+
+int main()
+{
+    struct student st1={"Tharika",20,"DSA",100};
+    print_val1(st1.name);
+    print_all(st1);
+    return 0;
+}
+void print_val1(char name)
+{
+    printf("%s",name);
+}
+void print_all(struct student st)
+{
+    printf("%s %d %s %d",st.name,st.age,st.sub_name,st.marks);
+}
