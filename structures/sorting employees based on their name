@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define max_terms 100
+struct emp_det{
+    char name[20];
+};
+struct emp_det employee[max_terms];
+int main()
+{
+    int n,i;
+    char sort[20];
+    printf("Enter the number of employees:");
+    scanf("%d",&n);
+    printf("Enter the employee details:\n");
+    for(i = 0; i < n;i++)
+    {
+        scanf("%s",employee[i].name);
+    }
+    printf("The employee details are:\n");
+    
+    for(i = 0; i < n;i++)
+    {
+        printf("%s\n",employee[i].name);
+    }
+    //sorting
+    for(i = 0;i < n;i++)
+    {
+        if(strcmp(employee[i].name,employee[i+1].name) > 0)
+        {
+            strcpy(sort[i],employee[i].name);
+            // strcpy(employee[i].name,employee[i+1].name);
+            // strcpy(employee[i+1].name,sort[i]);
+            printf("%s",sort[i]);
+        }
+    }
+    printf("Details in ascending order:\n");
+    for(i = 0;i < n;i++)
+    {
+        printf("%s\n",sort[i]);
+    }
+    return 0;
+}
