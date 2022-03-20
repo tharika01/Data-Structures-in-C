@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+void main()
+{
+    int *ptr,n = 10,i,new_size;
+    ptr = (int *)calloc(n,sizeof(int));
+    if(ptr == NULL)
+    {
+        printf("No memory");
+        return;
+    }
+    printf("Enter the elements\n");
+    for(i = 0;i<n;i++)
+    {
+        scanf("%d",(ptr+i));
+    }
+    printf("The elements are \n");
+    for(i = 0 ;i < n;i++)
+    {
+        printf("%d",*(ptr+i));
+    }
+    printf("Enter the new size\n");
+    scanf("%d",&new_size);
+    ptr = (int*)realloc(ptr,(n + new_size)*sizeof(int));
+    printf("Enter the new elements:");
+    for(i = n;i < n + new_size;i++)
+    {
+        scanf("%d",(ptr+i));
+    }
+    for(i = n;i < n + new_size;i++)
+    {
+        printf("%d",*(ptr+i));
+    }
+}
