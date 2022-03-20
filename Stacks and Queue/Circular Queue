@@ -1,0 +1,69 @@
+#include <stdio.h>
+#define SIZE 5
+void CQ_insert(int ele,int *r,int CQ[],int *cnt);
+int CQ_delete(int *f,int CQ[],int *cnt);
+void CQ_display(int f,int cnt,int CQ[]);
+int main()
+{
+    int CQ[SIZE],f =0,r = -1,ch,count = 0,ele,del_ele;
+    for(;;)
+    {
+        printf("\nEnter 1.To Insert 2.To Delete 3.Display 4.Exit\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+                if(count == SIZE)
+                {
+                    printf("Queue full");
+                    break;
+                }
+                printf("Enter the element to be inserted:\n");
+                scanf("%d",&ele);
+                CQ_insert(ele,&r,CQ,&count);
+                break;
+            case 2:
+                if(count == 0)
+                {
+                    printf("Queue is empty\n");
+                    break;
+                }
+                del_ele = CQ_delete(&f,CQ,&count);
+                printf("%d is deleted element\n",del_ele);
+                break;
+            case 3:
+                if(count == 0)
+                {
+                    printf("Queue is empty\n");
+                    break;
+                }
+                CQ_display(f,count,CQ);
+                break;
+            case 4:
+                exit(0);
+        }
+    }
+
+    return 0;
+}
+void CQ_insert(int ele,int *r,int CQ[],int *cnt)
+{
+    *r = (*r + 1) % SIZE;
+    CQ[*r] = ele;
+    *cnt = *cnt + 1;
+}
+int CQ_delete(int *f,int CQ[],int *cnt)
+{
+    int del_ele = CQ[*f];
+    *f = (*f + 1) % SIZE;
+    *cnt = *cnt - 1;
+    return(del_ele);
+}
+void CQ_display(int f,int cnt,int CQ[])
+{
+    for(int i = 0;i < cnt;i++)
+    {
+        printf("%d\t",CQ[f]);
+        f = (f+1) % SIZE;
+    }
+}
