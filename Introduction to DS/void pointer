@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main()
+{
+    void *p;
+    int i=98;
+    float f=98.65;
+    
+    p = &i;
+    printf("%d\n",*(int *)p);
+    
+    p = &f;
+    printf("%f\n",*(float *)p);
+    
+    
+    return 0;
+}
