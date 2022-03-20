@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void read_arr(int n,int arr[]);
+void insert_ele(int *n,int arr[]);
+void delete_ele(int *n,int arr[]);
+void traverse_arr(int n,int arr[]);
+
+#define SIZE 100
+int main()
+{
+    int arr[SIZE], n, choice;
+    printf("Enter the number of elements\n");
+    scanf("%d",&n);
+    
+    printf("Enter the elements:\n");
+    read_arr(n,arr);
+    
+    for(;;)
+    {
+        printf("\nEnter \n1:To insert\n2:To Delete\n3:To Traverse\n4:To Exit\n");
+        scanf("%d",&choice);
+        
+        switch(choice)
+        {
+            case 1:
+                insert_ele(&n,arr);
+                break;
+            
+            case 2:
+                delete_ele(&n,arr);
+                break;
+            case 3:
+                traverse_arr(n,arr);
+                break; 
+                
+            case 4:
+                exit(0);
+                
+            default:
+                printf("Enter num between 1-4");
+        }
+    }
+    return 0;
+}
+void read_arr(int n,int arr[])
+{
+    for(int i = 0;i < n;i++)
+    {
+        scanf("%d",&arr[i]);
+    }
+}
+
+void traverse_arr(int n,int arr[])
+{
+    for(int i =0;i<n;i++)
+    {
+        printf("%d\t",arr[i]);
+    }
+}
+void insert_ele(int *n,int arr[])
+{
+    int pos,val;
+    printf("Enter position:\n");
+    scanf("%d",&pos);
+    printf("Enter value to be entered:");
+    scanf("%d",&val);
+    
+    for(int i = *n;i >= *n;i--,n--)
+    {
+        arr[i + 1] = arr[i];
+    }
+    arr[pos -1] = val;
+}
+void delete_ele(int *n,int arr[])
+{
+    int pos,val;
+    printf("\nEnter position :");
+    scanf("%d",&pos);
+    
+    for(int i = pos;i ,i < *n;i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+}
