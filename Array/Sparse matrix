@@ -1,0 +1,59 @@
+#include<stdio.h>
+#define rows 100
+#define cols 100
+#define size 100
+struct sparse_mat
+{
+    int row;
+    int col;
+    int val;
+};
+struct sparse_mat SPM[size];
+int main()
+{
+    int nR,nC,in_mat[rows][cols],nV,i,j;
+    printf("ENter the number of rows\n");
+    scanf("%d",&nR);
+    printf("Enter the number of columns\n");
+    scanf("%d",&nC);
+    for(i = 0;i < nR;i++)
+    {
+        for(j = 0;j < nC;j++)
+        {
+            scanf("%d",&in_mat[i][j]);
+        }
+    }
+    printf("\ndisplaying array:\n");
+    for(i = 0;i < nR;i++)
+    {
+        for(j = 0;j < nC;j++)
+        {
+            printf("%d\t",in_mat[i][j]);
+        }
+        printf("\n");
+    }
+    SPM[0].row = nR;
+    SPM[0].col = nC;
+    for(i = 0;i < nR;i++)
+    {
+        for(j = 0;j < nC;j++)
+        {
+            if(in_mat[i][j] == 0)
+                continue;
+            else
+            {
+                nV++;
+                SPM[nV].row = i;
+                SPM[nV].col = j;
+                SPM[nV].val = in_mat[i][j];
+            }
+        }
+    } 
+    SPM[0].val = nV;
+    printf("<row,col,val> triplet representation \n");
+    printf("\trow\tcol\tval\n");
+    for(i = 0;i <= nV;i++)
+    {
+        printf("SPM[%d]\t %d\t %d\t %d\n",i,SPM[i].row,SPM[i].col,SPM[i].val);
+    }
+}
