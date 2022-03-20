@@ -1,0 +1,41 @@
+#include <stdio.h>
+#define SIZE 50
+void read_arr(int arr[],int n)
+{
+    for(int i = 0;i < n;i++)
+        scanf("%d",&arr[i]);
+}
+void print_arr(int arr[],int n)
+{
+    printf("The array elements are :");
+    for(int i = 0;i < n;i++)
+        printf("%d\t",arr[i]);
+}
+void merge(int arr1[],int arr2[],int nA,int nB)
+{
+    int i,j=0;
+    for(i = nA;i < nA+nB;i++,j++)
+    {
+        arr1[i] = arr2[j];
+    }
+}
+int main()
+{
+    int arr1[SIZE],arr2[SIZE],nA,nB;
+    printf("Enter the number of elements in array 1:");
+    scanf("%d",&nA);
+    printf("\nEnter the elements of array 1:\n");
+    read_arr(arr1,nA);
+    print_arr(arr1,nA);
+    
+    printf("\nEnter the elements of array 2:\n");
+    printf("\nEnter the number of elements in array 2:");
+    scanf("%d",&nB);
+    read_arr(arr2,nB);
+    print_arr(arr2,nB);
+
+    printf("\nafter merging:\n");
+    merge(arr1,arr2,nA,nB);
+    print_arr(arr1,nA+nB);
+    return 0;
+}
