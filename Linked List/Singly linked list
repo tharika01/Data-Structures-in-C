@@ -1,0 +1,238 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *link;
+}NODE;
+NODE *insert_front(int ele,NODE *first);
+NODE *insert_rear(int ele,NODE *first);
+NODE *delete_front(NODE *first);
+NODE *delete_rear(NODE *first);
+NODE *get_node();
+void display(NODE *first);
+int search_list(NODE* first,int key_node);
+NODE* insert_node_any(NODE *first,int pos,NODE* new_node);
+NODE *merge_list(NODE *first,NODE *second);
+//NODE *create_second(NODE *second);
+int main()
+{
+    NODE*first = NULL,*second = NULL;
+    NODE *new_node;
+    int ch,ele,key_node,flag,pos,new_data;
+    for(;;)
+    {
+        printf("\nEnter\n1.To insert at front\n2.To insert rear end of list\n3.To delete from fron\n4.To delete from rear\n5.To display\n6.To search List\n7.To insert a new node anywhere in the list\n8.merge two lists\n9.To Exit");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+                printf("Enter element to be inserted\n");
+                scanf("%d",&ele);
+                first = insert_front(ele,first);
+                printf("Enter element to be inserted in list 2\n");
+                scanf("%d",&ele);
+                second = insert_front(ele,second);
+                break;
+            case 2:
+                printf("Enter element to be inserted\n");
+                scanf("%d",&ele);
+                first = insert_rear(ele,first);
+                printf("Enter element to be inserted in list 2\n");
+                scanf("%d",&ele);
+                second = insert_front(ele,second);
+                break;
+            case 3:
+                first = delete_front(first);
+                break;
+            case 4:
+                first = delete_rear(first);
+                break;
+            case 5:
+                display(first);
+                printf("\n");
+                //display(second);
+                break;
+            case 6:
+                printf("Enter the key node:\n");
+                scanf("%d",&key_node);
+                flag = search_list(first,key_node);
+                if(flag == 1)
+                    printf("Search successful\n");
+                else
+                    printf("Search unsuccessful\n");
+                break;
+            /*case 7:
+                printf("Enter the position at which new element should be inserted:\n");
+                scanf("%d",&pos);
+                printf("Enter the new data\n");
+                scanf("%d",&new_data);
+                new_node = get_node();
+                new_node->data = new_data;
+                first = insert_node_any(first,pos,new_node);
+                break;
+            */
+            case 8:
+                first = merge_list(first,second);
+                break;
+            case 9:
+                exit(0);
+        }
+    }
+    return 0;
+}
+NODE *insert_front(int ele,NODE *first)
+{
+    NODE *temp = get_node();
+    temp->data = ele;
+    temp->link = first;
+    return temp;
+}
+NODE *insert_rear(int ele,NODE *first)
+{
+    NODE *temp,*new_node;
+    new_node = get_node();
+    new_node->data = ele;
+    new_node->link = NULL;
+    if(first == NULL)
+    {
+        return new_node;
+    }
+    temp = first;
+    while(temp->link != NULL)
+    {
+        temp = temp->link;
+    }
+    temp->link = new_node;
+    return first;
+}
+NODE *delete_front(NODE *first)
+{
+    NODE *temp;
+    if(first == NULL)
+    {
+        printf("list is empty\n");
+        return NULL;
+    }
+    temp = first;
+    first = first->link;
+    printf("The deleted element is %d",temp->data);
+    free(temp);
+    return first;
+}
+NODE *delete_rear(NODE *first)
+{
+    NODE *prev,*present;
+    if(first == NULL)
+    {
+        printf("List is empty");
+        return NULL;
+    }
+    if(first->link == NULL)
+    {
+        printf("deleted node is %d",first->data);
+        free (first);
+        return NULL;
+    }
+    prev = NULL;
+    present = first;
+    while(present->link != NULL)
+    {
+        prev = present;
+        present = present->link;
+    }
+    printf("deleted node is %d",present->data);
+    prev->link = NULL;
+    free(present);
+    return first;
+}
+int search_list(NODE* first,int key_node)
+{
+    NODE *temp = first;
+    while(temp->link != NULL)
+    {
+        if(temp->data == key_node)
+            return 1;
+        temp = temp->link;
+    }
+    return 0;
+}
+/*NODE *create_second(NODE *second)
+{
+    int ch,ele;
+    for(;;)
+    {
+        printf("Enter 1.to insert in front\n2.To inert at end\n3.to exit\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+                printf("Enter the element\n");
+                scanf("%d",&ele);
+                second = insert_front(ele,second);
+                break;
+            case 2:
+                printf("Enter element to be inserted\n");
+                scanf("%d",&ele);
+                second = insert_rear(ele,second);
+                break;
+            
+        }
+    }
+}*/
+NODE *merge_list(NODE *first,NODE *second)
+{
+    NODE *temp;
+    temp = first;
+    if(first == NULL)
+        return second;
+    else if(second == NULL)
+        return first;
+    else
+    {
+        while(temp->link != NULL)
+        {
+            temp = temp->link;
+        }
+        temp->link = second;   
+    }
+    return first;
+}
+/*NODE* insert_node_any(NODE *first,int pos,NODE* new_node)
+{
+    NODE *temp;
+    int i;
+    for(temp = first,i = 0;i < pos,temp != NULL;temp = temp->link)
+    {
+        if(first->link == NULL)
+        {
+            return new_node; 
+        }
+        if(i == pos)
+        {
+            new_node->link= temp->link;
+            temp->link = new_node;
+        }
+    }
+    return first;
+}*/
+
+void display(NODE *first)
+{
+    NODE *temp;
+    for(temp = first;temp != NULL;temp = temp->link)
+    {
+        printf("%d\t",temp->data);
+    }
+}
+NODE *get_node()
+{
+    NODE *temp;
+    temp = (NODE *)malloc(sizeof(NODE));
+    if(temp == NULL)
+    {
+        printf("No memory");
+        return NULL;
+    }
+    return temp;
+}
