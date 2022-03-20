@@ -1,0 +1,78 @@
+#include<stdio.h>
+#include<stdlib.h>
+int stack_full(int count,int cap);
+int stack_empty(int count);
+void push(int ele,int *top,int *,int *count);
+void pop(int *top,int *,int *count);
+void display_stack(int top,int *stack);
+int main()
+{
+    int cap = 2,count = 0,ch;
+    int *stack,ele,top =0;
+    stack = (int *)malloc(cap * sizeof(int));
+    for(;;)
+    {
+        printf("\n1:To Push 2:To pop 3:To Display 4:to exit");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+                if(stack_full(count,cap))
+                {
+                    printf("\nRe-allocating");
+                    stack = (int*)realloc(stack,2*cap*sizeof(int));
+                    cap *= 2;
+                }
+                printf("\nEnter the element to be pushed\n");
+                scanf("%d",&ele);
+                push(ele,&top,stack,&count);
+                break;
+            case 2:
+                if(stack_empty(count))
+                {
+                    printf("Stack empty");
+                    break;
+                }
+                pop(&top,stack,&count);
+                break;
+            case 3:
+                printf("\nDisplaying stack element\n");
+                display_stack(top,stack);
+                break;
+            case 4:
+                exit(0);
+        }
+    }
+}
+int stack_full(int count,int cap)
+{
+    if(count == cap)
+        return 1;
+    return 0;
+}
+int stack_empty(int count)
+{
+    if(count == 0)
+        return 1;
+    return 0;
+}
+void push(int ele,int *top,int *stack,int *count)
+{
+    (*top)++;
+    stack[*top] = ele;
+    (*count)++;
+    return;
+}
+void pop(int *top,int *stack,int *count)
+{
+    printf("The element popped is %d",stack[*top]);
+    (*count)--;
+    (*top)--;
+}
+void display_stack(int top,int *stack)
+{
+    for(int i = top;i>=0;i--)
+    {
+        printf("%d\t",stack[i]);
+    }
+}
