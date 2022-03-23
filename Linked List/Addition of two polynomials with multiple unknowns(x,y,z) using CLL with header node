@@ -1,0 +1,162 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+typedef struct poly_node
+{
+    int coef;
+    int expx,expy,expz;
+    struct poly_node *link;
+}POLY;
+
+POLY *get_node();
+void Read_poly(int n,POLY *h);
+void Print_poly(POLY *h);
+int compare(POLY *t1,POLY *t2);
+POLY *Add_poly(POLY *h1,POLY *h2);
+void attach(int cf,POLY *temp1,POLY **tres);
+POLY *delete(POLY *h,POLY *temp);
+
+int main()
+{
+    POLY *h1,*h2,*h3;
+    int n1,n2;
+    h1 = get_node();
+    h2 = get_node();
+    h3 = get_node();
+    
+    h1->link = h1;
+    h2->link = h2;
+    h3->link = h3;
+    
+    printf("Enter the number of terms in poly 1 and poly 2\n");
+    scanf("%d %d",&n1,&n2);
+    
+    //Reading the terms of the polynomials
+    printf("Enter the terms of poly1\n");
+    Read_poly(n1,h1);
+    printf("Enter the terms of poly 2\n");
+    Read_poly(n2,h2);
+    
+    printf("\nThe first polynomial is \n");
+    Print_poly(h1);
+    printf("\nThe second polynomial is\n");
+    Print_poly(h2);
+    
+    //Adding the polynomial
+    h3 = Add_poly(h1,h2);
+    printf("\n\nThe resultant polynomial is\n");
+    Print_poly(h3);
+    
+    return 0;
+}
+POLY *get_node()
+{
+    POLY *temp = (POLY*)malloc(sizeof(POLY)*2);
+    if(temp==NULL)
+    {
+        printf("No memory!");
+        return NULL;
+    }
+    return temp;
+}
+
+void Read_poly(int n,POLY *h)
+{
+    POLY *new_N,*temp;
+    int i;
+    temp = h;
+    for(i=0;i<n;i++)
+    {
+        new_N = get_node();
+        scanf("%d%d%d%d",&new_N->coef,&new_N->expx,&new_N->expy,&new_N->expz);
+        temp->link = new_N;
+        temp = new_N;
+    }
+    temp->link = h;
+    return;
+}
+
+void Print_poly(POLY *h)
+{
+    POLY *temp = h;
+    temp = temp->link;
+    while(temp != h)
+    {
+        printf("( %d x^%d y^%d z^%d ) + ",temp->coef,temp->expx,temp->expy,temp->expz);
+        temp = temp->link;
+    }
+    
+    return;
+}
+int compare(POLY *t1,POLY *t2)
+{
+    if((t1->expx == t2->expx) && (t1->expy == t2->expy) &&(t1->expz == t2->expz))
+        return 1;
+    return -1;
+}
+POLY *Add_poly(POLY *h1,POLY *h2)
+{
+    POLY *temp1,*temp2;
+    POLY *res = get_node();
+    POLY *tempres = res;
+    int sum;
+    temp1 = h1->link;
+    while(temp1 != h1)
+    {
+        temp2 = h2->link;
+        while(temp2 != h2)
+        {
+            switch(compare(temp1,temp2))
+            {
+                case 1:
+                    sum = temp1->coef + temp2->coef;
+                    attach(sum,temp1,&tempres);
+                    h2 = delete(h2,temp2);
+                    temp2 = h2->link;
+                    temp1 = temp1->link;
+                    break;
+                case -1://exp aren't equal
+                    temp2 = temp2->link;
+                    break;
+            }
+        }
+        if(temp1!=h1)
+        {
+            attach(temp1->coef,temp1,&tempres);
+            temp1 = temp1->link;
+        }
+    }
+    temp2=h2->link;
+    while(temp2!=h2)
+    {
+        attach(temp2->coef,temp2,&tempres);
+        temp2 = temp2->link;
+    }
+    tempres->link = res;
+    return res;
+}
+void attach(int cf,POLY *temp,POLY **tres)
+{
+    POLY *newN = get_node();
+    newN->coef = cf;
+    newN->expx = temp->expx;
+    newN->expy = temp->expy;
+    newN->expz = temp->expz;
+    (*tres)->link = newN;
+    *tres = newN;
+    return;
+}
+POLY *delete(POLY *h,POLY *temp)
+{
+    POLY *prev,*present;
+    prev= h;
+    present=h->link;
+    while((present != temp))//&& (present!=h)
+    {
+        prev=present;
+        present=present->link;
+    }
+    prev->link = present->link;
+    free(temp);
+    return h;
+}
