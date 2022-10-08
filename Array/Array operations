@@ -39,6 +39,7 @@ int main()
                 
             default:
                 printf("Enter num between 1-4");
+                break;
         }
     }
     return 0;
